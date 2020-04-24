@@ -1205,7 +1205,7 @@ function startServer() {
                             addTask({
                                 name: 'setState',
                                 id: `${devices[i]._id}.Alive`,
-                                state: {val: true, ack: true, expire: maxAge}
+                                state: {val: true, ack: true, expire: parseInt(maxAge)}
                             });
                             addTask({name: 'subscribeEvent', deviceID: devices[i]._id});
                         }
@@ -1711,7 +1711,7 @@ function sendCommand(id, cb) {
 
 function readSchedules() {
     return new Promise(resolve => {
-        adapter.objects.getObjectView('custom', 'state', {startkey: adapter.namespace + '.', endkey: adapter.namespace + '.\uFFFF'}, (err, doc) => {
+        adapter.getObjectView('custom', 'state', {startkey: adapter.namespace + '.', endkey: adapter.namespace + '.\uFFFF'}, (err, doc) => {
             if (doc && doc.rows) {
                 for (let i = 0, l = doc.rows.length; i < l; i++) {
                     if (doc.rows[i].value) {
